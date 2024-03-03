@@ -3,9 +3,20 @@ import random
 import sys
 import urllib.request
 import cowsay
+import io
 
 
 word_len = 5
+
+new_cow = cowsay.read_dot_cow(io.StringIO('''
+$the_cow = <<EOC;
+           $thoughts
+            $thoughts
+        "-.. __      __.='>
+         `.     """""   ,'
+           "-..__   _.-"
+   ~ ~~ ~ ~  ~   """  ~~  ~
+EOC'''))
 
 
 def bullscows(guess: str, secret: str) -> (int, int):
@@ -42,19 +53,17 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    print(cowsay.cowsay(prompt, cow=random.choice(cowsay.list_cows())))
+    print(cowsay.cowsay(prompt, cowfile=new_cow))
     guess = input()
     if valid:
         while guess not in valid:
-            print(cowsay.cowsay("Invalid guess, try again",
-                                cow=random.choice(cowsay.list_cows())))
+            print(cowsay.cowsay("Invalid guess, try again", cowfile=new_cow))
             guess = input()
     return guess
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(cowsay.cowsay(format_string.format(bulls, cows),
-                        cow=random.choice(cowsay.list_cows())))
+    print(cowsay.cowsay(format_string.format(bulls, cows), cowfile=new_cow))
 
 
 if __name__ == "__main__":
