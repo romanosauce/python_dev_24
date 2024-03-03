@@ -2,6 +2,7 @@ import collections
 import random
 import sys
 import urllib.request
+import cowsay
 
 
 word_len = 5
@@ -41,17 +42,19 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    print(prompt)
+    print(cowsay.cowsay(prompt, cow=random.choice(cowsay.list_cows())))
     guess = input()
     if valid:
         while guess not in valid:
-            print("Invalid guess, try again")
+            print(cowsay.cowsay("Invalid guess, try again",
+                                cow=random.choice(cowsay.list_cows())))
             guess = input()
     return guess
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay.cowsay(format_string.format(bulls, cows),
+                        cow=random.choice(cowsay.list_cows())))
 
 
 if __name__ == "__main__":
