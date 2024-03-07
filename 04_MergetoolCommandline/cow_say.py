@@ -10,6 +10,8 @@ class CowsayCmd(cmd.Cmd):
     intro = """
         Welcome to the cowsay CLI. It is fun, I promise
         """
+    eyes_preset = {'OO', 'xx', '$$', '**', '--', '@@', '__', '^^'}
+    tongue_preset = {'U ', ' U', '||', '| ', 'J ', 'LT'}
 
     def get_option_value(self, opt, arg, cmd_name, val_type=str):
         if opt in arg:
@@ -101,14 +103,21 @@ class CowsayCmd(cmd.Cmd):
 I hope my lack of skills didn’t slow you down
 and you managed to do all the planned things.""", ""]
 
-    def complete_make_bubble(self, text, line, begidx, endidx):
-        pass
-
     def complete_cowsay(self, text, line, begidx, endidx):
-        pass
+        words = (line[:endidx] + ".").split()
+        if len(words) != 1:
+            match words[-2]:
+                case '-t':
+                    return ["Sorry, I can't complete text for you", ""]
+                case '-c':
+                    return [cow for cow in cowsay.list_cows() if cow.startswith(text)]
+                case '-e':
+                    return list(self.eyes_preset)
+                case '-T':
+                    return list(self.tongue_preset)
 
     def complete_cowthink(self, text, line, begidx, endidx):
-        pass
+        return self.complete_cowsay(text, line, begidx, endidx)
 
 
 if __name__ == '__main__':
