@@ -96,6 +96,20 @@ class CowsayCmd(cmd.Cmd):
 
         self.do_cowsay(arg, func=cowsay.cowthink)
 
+    def complete_list_cows(self, text, line, begidx, endidx):
+        return ["""Sorry, friend. I can't autocomplete filepaths yet.
+I hope my lack of skills didn’t slow you down
+and you managed to do all the planned things.""", ""]
+
+    def complete_make_bubble(self, text, line, begidx, endidx):
+        pass
+
+    def complete_cowsay(self, text, line, begidx, endidx):
+        pass
+
+    def complete_cowthink(self, text, line, begidx, endidx):
+        pass
+
 
 if __name__ == '__main__':
     CowsayCmd().cmdloop()
