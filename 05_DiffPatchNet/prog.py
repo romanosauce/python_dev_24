@@ -51,11 +51,12 @@ async def chat(reader, writer):
                             writer.write("you can't send messages\nPlease log in\n>>> ".encode())
                     case ['yield', *text]:
                         if client_id in clients_cows:
-                            for queue in clients_queue.values():
-                                if queue is not clients_queue[client_id]:
+                            for id in clients_cows:
+                                if id != client_id :
+                                    queue = clients_queue[id]
                                     msg = '\n' + cowsay.cowsay(' '.join(text), cow=clients_cows[client_id])
                                     await queue.put(msg)
-                                    writer.write('>>> '.encode())
+                            writer.write(">>> ".encode())
                         else:
                             writer.write("you can't send messages\nPlease log in\n>>> ".encode())
                     case ['quit']:
