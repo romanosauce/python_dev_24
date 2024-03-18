@@ -40,7 +40,7 @@ async def chat(reader, writer):
                         if client_id in clients_cows:
                             if cow in clients:
                                 if text:
-                                    msg = f"\n{clients_cows[client_id]} said to you:\n{' '.join(text)}"
+                                    msg = cowsay.cowsay(' '.join(text), cow=clients_cows[client_id])
                                     await clients_queue[clients[cow]].put(msg)
                                     writer.write('>>> '.encode())
                                 else:
@@ -53,7 +53,7 @@ async def chat(reader, writer):
                         if client_id in clients_cows:
                             for queue in clients_queue.values():
                                 if queue is not clients_queue[client_id]:
-                                    msg = f"\n{clients_cows[client_id]} said to everyone:\n{' '.join(text)}"
+                                    msg = cowsay.cowsay(' '.join(text), cow=clients_cows[client_id])
                                     await queue.put(msg)
                                     writer.write('>>> '.encode())
                         else:
