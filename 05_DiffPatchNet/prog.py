@@ -70,6 +70,8 @@ async def chat(reader, writer):
                         writer.close()
                         await writer.wait_closed()
                         return
+                    case _:
+                        writer.write("unknown command\n>>> ".encode())
             elif q is write_data_to_client:
                 write_data_to_client = asyncio.create_task(clients_queue[client_id].get())
                 data = q.result()
