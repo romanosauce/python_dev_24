@@ -35,7 +35,7 @@ async def chat(reader, writer):
                             clients_cows[client_id] = cow
                             writer.write('>>> '.encode())
                         else:
-                            writer.write('invalid cow\n>>> '.encode())
+                            writer.write('Invalid cow\n>>> '.encode())
                     case ['say', cow, *text]:
                         if client_id in clients_cows:
                             if cow in clients:
@@ -44,11 +44,11 @@ async def chat(reader, writer):
                                     await clients_queue[clients[cow]].put(msg)
                                     writer.write('>>> '.encode())
                                 else:
-                                    writer.write('invalid message\n>>> '.encode())
+                                    writer.write('Invalid message\n>>> '.encode())
                             else:
-                                writer.write('invalid cow\n>>> '.encode())
+                                writer.write('Invalid cow\n>>> '.encode())
                         else:
-                            writer.write("you can't send messages\nPlease log in\n>>> ".encode())
+                            writer.write("You can't send messages\nPlease log in\n>>> ".encode())
                     case ['yield', *text]:
                         if client_id in clients_cows:
                             for id in clients_cows:
@@ -58,7 +58,7 @@ async def chat(reader, writer):
                                     await queue.put(msg)
                             writer.write(">>> ".encode())
                         else:
-                            writer.write("you can't send messages\nPlease log in\n>>> ".encode())
+                            writer.write("You can't send messages\nPlease log in\n>>> ".encode())
                     case ['quit']:
                         print(f"We lost {client_id}")
                         receive_data_from_client.cancel()
@@ -71,7 +71,7 @@ async def chat(reader, writer):
                         await writer.wait_closed()
                         return
                     case _:
-                        writer.write("unknown command\n>>> ".encode())
+                        writer.write("Unknown command\n>>> ".encode())
             elif q is write_data_to_client:
                 write_data_to_client = asyncio.create_task(clients_queue[client_id].get())
                 data = q.result()
